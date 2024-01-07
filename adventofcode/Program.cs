@@ -2,8 +2,8 @@
 
 using adventofcode;
 
-Console.WriteLine("Hello, World!");
+Console.WriteLine("Program Starting");
 
-DayOne.Run();
-
+// DayOne.Run();
+DayTwo.Run();
 
