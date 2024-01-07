@@ -2,38 +2,71 @@
 
 public static class DayTwo
 {
-    enum Color
-    {
-        Blue = 1,
-        Red,
-        Green
-    }
-
-    struct Set
-    {
-        public Color Color;
-        public int Count;
-    }
-
-    struct Part
-    {
-        public List<Set> Sets;
-    }
-
-    struct Game
-    {
-        public List<Part> Parts;
-        public int Id;
-    }
+    private const int MaxRed = 12;
+    private const int MaxGreen = 13;
+    private const int MaxBlue = 14;
 
     public static void Run()
     {
         string path = "Asset/DayTwo.txt";
-
         string[] lines = File.ReadAllLines(path);
+        var games = ParsGames(lines);
 
-        List<Game> games = new();
+        var possibleGames = new List<Game>();
 
+        foreach (var game in games)
+        {
+            var possible = true;
+
+            foreach (var gamePart in game.Parts)
+            {
+                foreach (var set in gamePart.Sets)
+                {
+                    if (set.Color is Color.Blue)
+                    {
+                        if (set.Count > MaxBlue)
+                        {
+                            possible = false;
+                        }
+
+                        continue;
+                    }
+
+                    if (set.Color is Color.Red)
+                    {
+                        if (set.Count > MaxRed)
+                        {
+                            possible = false;
+                        }
+
+                        continue;
+                    }
+
+                    if (set.Color is Color.Green)
+                    {
+                        if (set.Count > MaxGreen)
+                        {
+                            possible = false;
+                        }
+
+                        continue;
+                    }
+                }
+            }
+
+            if (possible)
+            {
+                possibleGames.Add(game);
+            }
+        }
+
+        var value = possibleGames.Select(x => x.Id);
+        Console.WriteLine(value.Sum());
+    }
+
+    private static List<Game> ParsGames(string[] lines)
+    {
+        var games = new List<Game>();
         foreach (var line in lines)
         {
             var game = new Game();
@@ -63,12 +96,16 @@ public static class DayTwo
 
                     partStruct.Sets = setList;
                 }
-                
+
                 partList.Add(partStruct);
             }
 
             game.Parts = partList;
+
+            games.Add(game);
         }
+
+        return games;
     }
 
     private static Color MapToColor(string input)
@@ -82,5 +119,29 @@ public static class DayTwo
         };
 
         return colorEnum;
+    }
+
+    enum Color
+    {
+        Blue = 1,
+        Red,
+        Green
+    }
+
+    struct Set
+    {
+        public Color Color;
+        public int Count;
+    }
+
+    struct Part
+    {
+        public List<Set> Sets;
+    }
+
+    struct Game
+    {
+        public List<Part> Parts;
+        public int Id;
     }
 }
