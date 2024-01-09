@@ -6,7 +6,71 @@ public static class DayTwo
     private const int MaxGreen = 13;
     private const int MaxBlue = 14;
 
-    public static void Run()
+    public static void PartTwoRun()
+    {
+        string path = "Asset/DayTwo.txt";
+        string[] lines = File.ReadAllLines(path);
+        var games = ParsGames(lines);
+
+        var gameMinimumToPower = new List<int>();
+
+        foreach (var game in games)
+        {
+            int? maxRed = null;
+            int? maxBlue = null;
+            int? maxGreen = null;
+            foreach (var gamePart in game.Parts)
+            {
+                foreach (var set in gamePart.Sets)
+                {
+                    switch (set.Color)
+                    {
+                        case Color.Blue:
+                        {
+                            if (maxBlue is null)
+                            {
+                                maxBlue = set.Count;
+                                continue;
+                            }
+
+                            if (maxBlue < set.Count) maxBlue = set.Count;
+                            continue;
+                        }
+                        case Color.Red:
+                        {
+                            if (maxRed is null)
+                            {
+                                maxRed = set.Count;
+                                continue;
+                            }
+
+                            if (maxRed < set.Count) maxRed = set.Count;
+                            continue;
+                        }
+                        case Color.Green:
+                        {
+                            if (maxGreen is null)
+                            {
+                                maxGreen = set.Count;
+                                continue;
+                            }
+
+                            if (maxGreen < set.Count) maxGreen = set.Count;
+                            continue;
+                        }
+                    } // switch
+                    
+                } // set loop
+                
+            } // part loop
+            gameMinimumToPower.Add((int)(maxRed*maxBlue*maxGreen));
+        } // game loop
+
+        Console.WriteLine(gameMinimumToPower.Sum());
+    }
+
+
+    public static void PartOneRun()
     {
         string path = "Asset/DayTwo.txt";
         string[] lines = File.ReadAllLines(path);
@@ -22,34 +86,35 @@ public static class DayTwo
             {
                 foreach (var set in gamePart.Sets)
                 {
-                    if (set.Color is Color.Blue)
+                    switch (set.Color)
                     {
-                        if (set.Count > MaxBlue)
+                        case Color.Blue:
                         {
-                            possible = false;
+                            if (set.Count > MaxBlue)
+                            {
+                                possible = false;
+                            }
+
+                            continue;
                         }
-
-                        continue;
-                    }
-
-                    if (set.Color is Color.Red)
-                    {
-                        if (set.Count > MaxRed)
+                        case Color.Red:
                         {
-                            possible = false;
+                            if (set.Count > MaxRed)
+                            {
+                                possible = false;
+                            }
+
+                            continue;
                         }
-
-                        continue;
-                    }
-
-                    if (set.Color is Color.Green)
-                    {
-                        if (set.Count > MaxGreen)
+                        case Color.Green:
                         {
-                            possible = false;
-                        }
+                            if (set.Count > MaxGreen)
+                            {
+                                possible = false;
+                            }
 
-                        continue;
+                            continue;
+                        }
                     }
                 }
             }

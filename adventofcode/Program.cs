@@ -5,5 +5,6 @@ using adventofcode;
 Console.WriteLine("Program Starting");
 
 // DayOne.Run();
-DayTwo.Run();
+// DayTwo.PartOneRun();
+DayTwo.PartTwoRun();
 
