@@ -6,5 +6,7 @@ Console.WriteLine("Program Starting");
 
 // DayOne.Run();
 // DayTwo.PartOneRun();
-DayTwo.PartTwoRun();
+// DayTwo.PartTwoRun();
+DayThree.PartOneRun();
+
 
